@@ -1,0 +1,14 @@
+.radiobutton {
+    display: none;
+ }
+label {
+     background-color: skyblue;
+        padding: 10px 20px;
+    }
+.radiobutton:checked + label {
+background-color: pink;
+}
+.s{
+    width: 100px;
+    height: 50px;
+}

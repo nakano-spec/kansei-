@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+p{
+    text-align: center;
+}
+#abc{
+    font-size: 100px;
+}
+
+.row{
+    text-align: center;
+}
+body{
+    background-color:#2ba9b9;
+    background-size: cover;
+}
+
+input select textarea{
+  font-size: 100%;
+}
+#mondai{
+  position: fixed; top:30%;left:10%
+}
+.s{
+  width: 30%;
+  height: 60px;
+  background-color: orange;
+  font-size: 30px;
+  text-align: center;
+  padding: 10px;
+}
+.sinki{
+  width: 30%;
+  height: 60px;
+  background-color: orange;
+  font-size: 30px;
+  text-align: center;
+  padding: 10px;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ファイルで問題追加</title>
+        <%# jqueryをURL経由で読み出している %>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <%# これはコメントです。%>
+        <%# socket.ioをパス経由で読み出している。%>
+        <script src = '/socket.io/socket.io.js'></script>
+        <h1>アップロードするcsvファイルを選択してください。</h1>
+        
+        <input type="file" id="select" name="select" accept=".csv">
+            <div>
+                <h1>アップロードする写真を選択してください。</h1>
+            <input type="file" id = "upload" name="file" multiple draggable="true"  />
+                <h1>フォルダーでアップロードする方はこちら</h1>
+            <input type="file" id = "upload2" name="file2" multiple draggable="true" webkitdirectory />
+            </div>
+        <div id = "err"></div>
+        <ul id ="filename"></ul>
+        <form name ="fo">
+            <input type="submit" id="result" name="bu1" value="記録">
+        </form>
+        <script src ="/javascripts/fail.js"></script>
+        </body>
+</html>
