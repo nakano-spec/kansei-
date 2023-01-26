@@ -10,7 +10,7 @@ for(let i = 1;i<col;i++)
   const newBtn = document.createElement("button");
   newBtn.innerHTML ="表示";
   newBtn.value =i;
-  newBtn.style="width: 100px; height: 38px; display:flex; flex-flow: column; position: relative; top:55px;";
+  newBtn.style="width: 100px; height: 38px; display:flex; flex-flow: column; position: relative; top:55px; margin-bottom: 1px";
   newBtn.onclick = () => {
     var c = table.rows[i].cells[1].innerHTML;
     socket.emit('hyou',c);

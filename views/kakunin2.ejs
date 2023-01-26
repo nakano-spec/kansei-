@@ -2,22 +2,25 @@
 <html>
     <head>
         <title>問題確認</title>
+        <style>
+            div#picture{
+                font-size: 1px;
+            }
+        </style>
     </head>
     <body>
+        <div id ="picture"><%= data[0].picturename %></div>
         <p><%= data[0].name %></p>
-        <br>
         <h1><%= data[0].mondaibun %></h1>
         <br>
-        <div id ="picture"></div>
+        <div id ="picture2"></div>
         <br>
         <h1><label>回答</label>　<%= data[0].seikai %></h1>
         <script>
-            const rows = JSON.parse('<%- JSON.stringify(data) %>');
-            var doc = document.getElementById('picture');
+            const rows = document.getElementById('picture').innerHTML;
+            var doc = document.getElementById('picture2');
             const class1 = "example";
-            if(rows[0].picturename){
-                doc.innerHTML ="<img src=images/" + rows[0].picturename + " class=" + class1 +">" 
-            }
+            doc.innerHTML ="<img src=images/" + rows + " class=" + class1 +">" 
         </script>
     </body>
 </html>
