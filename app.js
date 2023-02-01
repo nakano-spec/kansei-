@@ -126,9 +126,5 @@ app.post('/upload',multer({ dest:'./images' } ).single('file'),function(req,res,
   res.send('ファイルのアップロードが完了しました。');
 })
 
-
-
-
-
 app.use(cors());
 module.exports = app;

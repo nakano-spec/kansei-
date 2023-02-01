@@ -114,21 +114,28 @@ io.on('connection', (socket) => {//ページが繋がったとき
   socket.on('new_btnclick', (name,pass1,pass2) => {
 
     if(pass1 == pass2) {
-      var new_select1 = "select username from users2 where username = ?;"
-      var new_select2 = "select password from users2 where password = ?;"
+      var new_select1 = "select username from users where username = ?;"
+      var new_select2 = "select password from users where password = ?;"
+      var new_insert1 = "insert into users values (?,?,?,'2022{01>01','2022{01>01');"
+      var kensaku = "SELECT MIN(user_ID + 1100) AS user_ID FROM users WHERE (user_ID + 1000) NOT IN (SELECT user_ID FROM users);"
       connection.query(new_select1,name,(err, new_result1, fields) => {
         connection.query(new_select2,pass1,(err, new_result2, fields) => {
           if(new_result1.length < 1 && pass1.length >= 8 && pass1.length <= 16 && pass1.length != 0 && name.length >= 2 && name.length <= 10) {
-            var new_insert1 = "insert into users2(username,password,touroku,kousin) values (?,'test','2022{01>01','2022{01>01');"
-            var new_update1 = "update users2 set password = ? ORDER BY user_id DESC LIMIT 1;"
-            connection.query(new_insert1,name,(err, new_result3, fields) => {
-              connection.query(new_update1,pass1,(err, new_result4, fields) => {
+            connection.query(kensaku,(err,kensaku1,fields)=>{
+              if(err){
+                console.log(err);
+              }
+              var user = kensaku1[0].user_ID;
+              connection.query(new_insert1,[user,name,pass1],(err, new_result3, fields) => {
+                if(err){
+                  console.log(err);
+                }
                 connection.commit((err) =>{
                   if(err){connection.rollback(() =>{throw console.log('error');});}
                 })
                 var new_flug = 1;
                 io.emit('new_flug',new_flug);
-              })
+            })
             })
           }
         })
