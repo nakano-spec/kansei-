@@ -13,6 +13,8 @@ var ExcelJS = require('exceljs');
 var validator = require('validator');
 var fs = require('fs');
 var poolCluster = app.get('pool');
+var async = require('async');
+
 
 
 /**
@@ -101,19 +103,16 @@ const store = require('store');
 const { connect } = require('http2');
 
 io.on('connection', (socket) => {//ページが繋がったとき
-
-  /*const mysql_setting = {
+  const mysql_setting = {
     host: 'localhost',
     user: 'root',
     password: '20010426',
     database: 'mydb'
   }
   const connection = mysql.createConnection(mysql_setting);
-  connection.connect();*/
-  var pool = poolCluster.of('MASTER');
-  pool.getConnection(function(err,connection){
+  connection.connect();
+  /*var pool = poolCluster.of('MASTER')*/
     socket.on('new_btnclick', (name,pass1,pass2) => {
-
       if(pass1 == pass2) {
         var new_select1 = "select username from users where username = ?;"
         var new_select2 = "select password from users where password = ?;"
@@ -263,30 +262,54 @@ io.on('connection', (socket) => {//ページが繋がったとき
         })
       })
     })
+
     socket.on('kekkasyusei',(set1)=>{
       var sql1 = "select user_ID from users where username = ?;"
       var sql2 = "update kaitou_LIST set han = ? where user_ID =?;"
-      var d = "a";
-      var e = 0;
-      for(var i = 0;i<set1.length;i++){
-        connection.query(sql1,set1[e][0],(err,result,fields)=>{
+      var d = "a"
+      async.waterfall([
+        function(callback){
+          for(var i = 0;i<set1.length;i++){
+            let user = set1[i];
+            connection.query(sql1,user[0],(err,result,fields)=>{
+            if(err){
+              console.log(err);
+            }
+            d = user[1];
+            connection.query(sql2,[d,result[0].user_ID],(err,result2,field)=>{
+              if(err){
+                console.log(err);
+              }
+            })
+          })
+          }
+          callback(null,1);
+        },
+        function(){
+          connection.commit((err) =>{
+            if(err){connection.rollback(() =>{throw console.log('error');});}
+          })
+          io.emit('kekkahyouji2');
+        }
+      ]);
+      /*for(var i = 0;i<set1.length;i++){
+        let user = set1[i];
+        connection.query(sql1,user[0],(err,result,fields)=>{
         if(err){
           console.log(err);
         }
-        console.log(result);
-        console.log(e);
-        d = set1[e][1];
-        console.log(d);
-        e = e + 1;
+        d = user[1];
         connection.query(sql2,[d,result[0].user_ID],(err,result2,field)=>{
           if(err){
             console.log(err);
           }
-          console.log(result2);
         })
       })
       }
-      io.emit('kekkahyouji2');
+      connection.commit((err) =>{
+        if(err){connection.rollback(() =>{throw console.log('error');});}
+      })
+      io.emit('kekkahyouji2');*/
     })
   
     socket.on('kaitoutuika',(array)=>{
@@ -296,13 +319,15 @@ io.on('connection', (socket) => {//ページが繋がったとき
       var e = 0;
       var f = "a";
       var g = "a";
-      for(var i = 0;i<array.length-1;i++){
+      console.log(array);
+      for(var i = 0;i<array.length ;i++){
         connection.query(sql,(err,result,field)=>{
           if(err){
             console.log(err);
           }
-          f = array[e][0];
-          g = array[e][1];
+          f = array[e]
+          g = array[e + 1]
+          console.log(g);
           connection.query(sql2,[result[0].seikai_ID,f,g],(err,result2,fields)=>{
             if(err){
               console.log(err);
@@ -326,7 +351,7 @@ io.on('connection', (socket) => {//ページが繋がったとき
       var g = "a";
       console.log(array);
       for(var i = 0;i<array.length;i++){
-        g = array[l][0];
+        g = array[l]
         connection.query(sql,g,(err,result,field)=>{
           if(err){
             console.log(err);
@@ -378,7 +403,8 @@ io.on('connection', (socket) => {//ページが繋がったとき
         io.emit('kekkahyouji2');
     })
     // login
-    socket.on('login_btnclick', (login_name,login_pass1) => {
+    socket.on('login_btnclick', (token,login_name,login_pass1) => {
+          
           if(login_pass1 != '') {
             var login_select1 = "select username from users where username = ?;"
             var login_select2 = "select password from users where password = ?;"
@@ -408,26 +434,26 @@ io.on('connection', (socket) => {//ページが繋がったとき
                         if(err){
                           console.log(err);
                           var new_flug = 0;
-                          io.emit('new_flug',new_flug);
+                          io.to(token).emit('new_flug',new_flug);
                         }
   
                         if(login_result4[0].user_ID < 100)
                         {
                           var login_flug = 1;
-                          io.emit('login_flug',login_flug,login_name);
+                          io.to(socket.id).emit('login_flug',login_flug,login_name);
                         }else if(login_result4[0].user_ID > 100 && login_result4[0].user_ID < 9999)
                         {
                           var login_flug = 1;
-                          io.emit('login_flug1',login_flug,login_name);
+                          io.to(socket.id).emit('login_flug1',login_flug,login_name);
                         }else if(login_result4[0].user_ID > 10000)
                         {
                           var login_flug = 1;
-                          io.emit('login_flug2',login_flug,login_name);
+                          io.to(socket.id).emit('login_flug2',login_flug,login_name);
                         }
                       })
                     }else{
                       var new_flug=0;
-                      io.emit('new_flug',new_flug);
+                      io.to(socket.id).emit('new_flug',new_flug);
                     }
                   })
                 }
@@ -485,17 +511,22 @@ io.on('connection', (socket) => {//ページが繋がったとき
 
      socket.on('kiroku',(m1,kaitou1) =>{
   
-      let monname = 'select mon_ID from mondai_LIST where sentaku = 1;'
+      let monname = 'select m.mon_ID,s.seikai from mondai_LIST m ,seikai_LIST s where sentaku = 1 and m.mon_ID = s.mon_ID;'
       let seikai = 'select kaitou from mondai_LIST where sentaku = 1;'
       let tuika = 'insert into kaitou_LIST values(?,?,?,?);'
       let userIDSELECT = 'select user_ID from users where username = ?;'
       let update1 = "update kaitou_LIST set user_ID = ? where user_ID = '9999';"
+      var hantei = "✕";
       connection.query(monname,(err,result,fields)=>{
         if(err){
           console.log(err);
         }
         var idi = result[0].mon_ID;
-        var hantei = "✕"
+        for(var i = 0;i<result.length;i++){
+          if(kaitou1 == result[i].seikai){
+            hantei = "○";
+          }
+        }
           var addsqlparams = ['9999',idi,kaitou1,hantei];
           connection.query(tuika,addsqlparams,(err,result,fields) =>{
             if(err){
@@ -526,7 +557,6 @@ io.on('connection', (socket) => {//ページが繋がったとき
         connection.release();
       })
      })
-  })
   });
 
 

@@ -9,7 +9,11 @@ var f  = document.forms.myform2;
                 remain2.innerText=p4;
             }else{
                 var countdownid = setInterval(function(){
-                p4 --;
+                if(p3 != 0 && p4 == 0){
+                    p4 = 59
+                }else{
+                   p4 --; 
+                }
                 remain.innerText=p3;
                 remain2.innerText = p4;
                 if(p3 >0 && p4 == 0){

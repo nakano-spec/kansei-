@@ -36,7 +36,11 @@
       doc.innerHTML ="<img src=images/" + rows[0].picturename + " class=" + class1 +">" 
     }
     var countdownid1 = setInterval(function(){
-          timer4 --;
+          if(timer3 != 0 && timer4 == 0){
+            timer4 = 59
+          }else{
+            timer4 --; 
+          }
           re.innerText=timer3;
           re3.innerText = timer4;
           if(timer3 >0 && timer4 == 0){

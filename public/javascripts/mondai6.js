@@ -7,7 +7,6 @@ var d ="a";
 var ds = 0;
 var ds2 = 0;
 var col = col;
-var array = new Array(col-1);
 for(let i = 1;i<col;i++)
 {
   const newBtn = document.createElement("button");
@@ -29,13 +28,19 @@ f.kekka.addEventListener('click',function(e){
 
 f.tuika.addEventListener('click',function(e){
   e.preventDefault();
+  var array = new Array(2);
   for(var i = 0;i<col -1;i++){
     if(table.rows[i+1].cells[4].lastElementChild.checked == true){
-        array[ds] = new Array(2);
-        array[ds][0] = table.rows[i + 1].cells[0].innerHTML;
-        array[ds][1] = table.rows[i + 1].cells[2].innerHTML;
-        ds = ds + 1;
+        array[ds] = table.rows[i + 1].cells[0].innerHTML;
+        array[ds + 1] = table.rows[i + 1].cells[2].innerHTML;
+        ds = ds + 2;
+        array.push("a","a");
     }
+  }
+  var j = 0;
+  while(j < 2){
+    array.pop()
+    j = j + 1;
   }
   console.log(array);
   socket.emit('kaitoutuika',array);
@@ -44,13 +49,16 @@ f.tuika.addEventListener('click',function(e){
 
 f.sakuzyo.addEventListener('click',function(e){
     e.preventDefault();
+    var array = new Array(1);
     for(var i = 0;i<col-1;i++){
       if(table.rows[i + 1].cells[5].lastElementChild.checked == true){
-        array[ds2] = new Array(1);
-        array[ds2][0] = table.rows[i + 1].cells[2].innerHTML
+        array[ds2] = table.rows[i + 1].cells[2].innerHTML
         ds2 = ds2 + 1;
+        array.push("a");
       }
     }
+    array.pop();
+    console.log(array);
     socket.emit('kaitousakuzyo',array);
 })
         

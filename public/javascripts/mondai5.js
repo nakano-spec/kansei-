@@ -27,7 +27,7 @@ for(let i = 1;i<col;i++)
 f.kekka.addEventListener('click',function(e){
   e.preventDefault();
   err = 0;
-  for(let i = 0;i<col -1;i++){
+  for(let i = 0;i<col - 1 ;i++){
     if(table.rows[i+1].cells[3].lastElementChild.checked == true && table.rows[i + 1].cells[4].lastElementChild.checked == true){
         if(document.getElementById('div3').innerHTML != ""){
             document.getElementById('div3').innerHTML = '';
@@ -57,9 +57,8 @@ f.kekka.addEventListener('click',function(e){
         if(table.rows[j+1].cells[3].lastElementChild.checked == true){
             array[j][0] = table.rows[j+1].cells[1].innerHTML;
             array[j][1] = table.rows[j + 1].cells[3].textContent;
-            //socket.emit('kekkasyusei',array);
         }else if(table.rows[j + 1].cells[4].lastElementChild.checked == true){
-            array[j][0] = table.rows[j+1].cells[1].innerHTML;
+            array[j][0] = table.rows[j + 1].cells[1].innerHTML;
             array[j][1] = table.rows[j + 1].cells[4].textContent;
         }
     }
