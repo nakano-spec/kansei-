@@ -1,4 +1,4 @@
-    var socket = io();
+      var socket = io();
       var f = document.forms.myform;
       var flug = 0;
       var mondai = document.getElementById('mondai');

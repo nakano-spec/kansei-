@@ -49,23 +49,9 @@ const db_conf ={
   password :'20010426',
   database :'mydb',
 }
-const db_conf2 ={
-  host :'localhost',
-  user :'root',
-  password :'20010426',
-  database :'mydb2',
-}
-const db_conf3 ={
-  host :'localhost',
-  user :'root',
-  password :'20010426',
-  database :'mysql2',
-}
 const pool = mysql.createPoolCluster();
 pool.add('MASTER',db_conf);
-pool.add('SLAVE1',db_conf);
-pool.add('SLAVE2',db_conf2);
-pool.add('SLAVE3',db_conf3);
+
 app.set('pool',pool);
 
 //ejsを使えるようにしている。

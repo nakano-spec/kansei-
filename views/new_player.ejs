@@ -11,29 +11,29 @@
   <script src="/socket.io/socket.io.js"></script>
     <p id="a">新規登録</p><br>
     <div class="row">
-        <form name = "myform" class="col s12" action="/new_player">
+        <form name = "myform" class="col-s12" action="/new_player">
           <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field-col-s6">
               <label for="first_name">ユーザー名</label>
               <input id="first_name" type="text" name="name" class="validate" minlength="2" maxlength="10" placeholder="半角英数字２～１０文字"
-              value="" size="20" style="font-size: 50px;">
+              value="">
             </div>
           </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field-col-s12">
               <label for="password">パスワード</label>
               <input id="password" type="password" name="password1" class="validate" minlength="8" maxlength="16" placeholder="半角英数字８～１６文字"
-              value="" size="20" style="font-size: 50px;">
+              value="" >
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field-col-s13">
               <label for="password">　確　認　</label>
               <input id="password" type="password" name="password2"class="validate" minlength="8" maxlength="16" placeholder="もう一度入力"
-              value="" size="20" style="font-size: 50px;">
+              value="">
             </div>
           </div>
-          <div class = "s">
+          <div class = "sow">
             <br>
             <input type="submit" name="button" value="登録" class="s"></button>
           </div>
