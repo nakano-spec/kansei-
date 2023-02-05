@@ -92,3 +92,8 @@ input select textarea{
   height: 30px;
 }
 }
+
+body{
+  background-color: #fffca9;
+  background-size: cover;
+}

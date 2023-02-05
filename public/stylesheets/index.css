@@ -28,3 +28,7 @@ h1{
   width: 900px;
   height: 600px;
 }
+body{
+  background-color: #fffca9;
+  background-size: cover;
+}

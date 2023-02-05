@@ -6,3 +6,7 @@ p{
     text-align: center;
     font-size: 100px;
 }
+body{
+    background-color: #fffca9;
+    background-size: cover;
+}

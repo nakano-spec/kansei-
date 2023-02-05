@@ -271,7 +271,8 @@ io.on('connection', (socket) => {//ページが繋がったとき
         function(callback){
           for(var i = 0;i<set1.length;i++){
             let user = set1[i];
-            connection.query(sql1,user[0],(err,result,fields)=>{
+            a = user[0];
+            connection.query(sql1,a,(err,result,fields)=>{
             if(err){
               console.log(err);
             }
@@ -283,9 +284,11 @@ io.on('connection', (socket) => {//ページが繋がったとき
             })
           })
           }
-          callback(null,1);
+          setTimeout(function() {
+            callback(null,1);
+          }, 100);
         },
-        function(){
+        function(callback){
           connection.commit((err) =>{
             if(err){connection.rollback(() =>{throw console.log('error');});}
           })
@@ -350,21 +353,30 @@ io.on('connection', (socket) => {//ページが繋がったとき
       var l = 0;
       var g = "a";
       console.log(array);
-      for(var i = 0;i<array.length;i++){
-        g = array[l]
-        connection.query(sql,g,(err,result,field)=>{
-          if(err){
-            console.log(err);
+      async.waterfall([
+        function(callback){
+          for(var i = 0;i<array.length;i++){
+            g = array[l]
+            connection.query(sql,g,(err,result,field)=>{
+              if(err){
+                console.log(err);
+              }
+              l = l+1;
+              connection.query(sql2,g,(err,result2,field)=>{
+                if(err){
+                  console.log(err);
+                }
+              })
+            })
           }
-          l = l+1;
-          connection.query(sql2,g,(err,result2,field)=>{
-            if(err){
-              console.log(err);
-            }
-          })
-        })
-      }
-      io.emit('yomikomi');
+          setTimeout(function() {
+            callback(null,1);
+          }, 100);
+        },
+        function(callback){
+          io.emit('yomikomi');
+        }
+      ])
     })
   
     socket.on('syokika',()=>{

@@ -4,3 +4,7 @@
     align-items: center;
     text-align: center;
 }
+body{
+    background-color: #fffca9;
+    background-size: cover;
+}

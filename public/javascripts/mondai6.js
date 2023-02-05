@@ -65,3 +65,7 @@ f.sakuzyo.addEventListener('click',function(e){
 socket.on('yomikomi',function(){
   window.location.href='/mondai3';
 })
+
+socket.on('modoru',function(){
+  window.location.href='/mondai';
+})
